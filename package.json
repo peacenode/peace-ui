@@ -1,0 +1,72 @@
+{
+  "name": "peace-ui-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "author": {
+    "name": "peace"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "cli:dev": "turbo --filter=peace-ui dev",
+    "cli": "pnpm --filter=peace-ui start:dev",
+    "cli:prod": "pnpm --filter=peace-ui start:prod",
+    "cli:build": "pnpm --filter=peace-ui build",
+    "cli:test": "pnpm --filter=peace-ui test",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "preview": "turbo run preview",
+    "typecheck": "turbo run typecheck",
+    "format:write": "turbo run format:write",
+    "format:check": "turbo run format:check",
+    "check": "turbo lint typecheck format:check",
+    "pub:beta": "cd packages/peace-ui && pnpm pub:beta",
+    "pub:release": "cd packages/peace-ui && pnpm pub:release",
+    "test": "turbo run test"
+  },
+  "packageManager": "pnpm@9.0.6",
+  "dependencies": {
+    "@babel/core": "^7.22.1",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^17.6.3",
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.2",
+    "@typescript-eslint/eslint-plugin": "^8.49.0",
+    "@typescript-eslint/parser": "^8.49.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.0.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-turbo": "^1.9.9",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-tailwindcss": "3.13.1",
+    "motion": "^12.12.1",
+    "prettier": "^2.8.8",
+    "pretty-quick": "^3.1.3",
+    "tailwindcss": "^3.4.18",
+    "tsx": "^4.1.4",
+    "turbo": "^1.9.9",
+    "vite": "^7.1.12",
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^2.1.9"
+  },
+  "devDependencies": {
+    "@types/hast": "^3.0.4",
+    "@types/node": "^20.11.27",
+    "@types/react": "^18.2.65",
+    "@types/react-dom": "^18.2.22",
+    "typescript": "^5.5.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.2.2",
+      "@types/react-dom": "19.2.2"
+    }
+  }
+}
