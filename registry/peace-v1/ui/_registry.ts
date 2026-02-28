@@ -206,7 +206,8 @@ export const ui: Registry["items"] = [
   {
     name: "dialog",
     type: "registry:ui",
-    dependencies: ["radix-ui"],
+    dependencies: ["radix-ui", "motion"],
+    registryDependencies: ["motion"],
     files: [
       {
         path: "ui/dialog.tsx",
@@ -448,7 +449,8 @@ export const ui: Registry["items"] = [
   {
     name: "sheet",
     type: "registry:ui",
-    dependencies: ["radix-ui"],
+    dependencies: ["radix-ui", "motion"],
+    registryDependencies: ["motion"],
     files: [
       {
         path: "ui/sheet.tsx",
