@@ -19,9 +19,9 @@ const DEPRECATED_ITEMS = [
 // Shared between index and style for backward compatibility.
 const PEACE_V1_STYLE = {
   type: "registry:style",
-  dependencies: ["class-variance-authority", "lucide-react", "radix-ui"],
+  dependencies: ["class-variance-authority", "lucide-react", "radix-ui", "motion"],
   devDependencies: ["tw-animate-css", "peace-ui"],
-  registryDependencies: ["utils"],
+  registryDependencies: ["utils", "motion"],
   css: {
     '@import "tw-animate-css"': {},
     '@import "peace-ui/tailwind.css"': {},

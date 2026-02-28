@@ -12,4 +12,15 @@ export const lib: Registry["items"] = [
       },
     ],
   },
+  {
+    name: "motion",
+    type: "registry:lib",
+    dependencies: ["motion"],
+    files: [
+      {
+        path: "lib/motion.ts",
+        type: "registry:lib",
+      },
+    ],
+  },
 ]

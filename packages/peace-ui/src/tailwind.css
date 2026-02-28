@@ -1,4 +1,28 @@
 @theme inline {
+  /* peace-ui motion tokens */
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 350ms;
+  --ease-default: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-out: cubic-bezier(0, 0.55, 0.45, 1);
+
+  /* peace-ui shadow hierarchy (Apple-style layered, diffused) */
+  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.03), 0 1px 3px 0 rgb(0 0 0 / 0.06);
+  --shadow-medium: 0 2px 4px -1px rgb(0 0 0 / 0.04), 0 4px 8px -1px rgb(0 0 0 / 0.08);
+  --shadow-elevated: 0 4px 6px -2px rgb(0 0 0 / 0.03), 0 12px 24px -4px rgb(0 0 0 / 0.12);
+  --shadow-overlay: 0 8px 16px -4px rgb(0 0 0 / 0.06), 0 24px 48px -8px rgb(0 0 0 / 0.16);
+
+  /* peace-ui shimmer animation */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
   @keyframes accordion-down {
     from {
       height: 0;
@@ -91,5 +115,40 @@
 
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@utility transition-colors-fast {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: var(--ease-default);
+  transition-duration: var(--duration-fast);
+}
+
+@utility transition-transform-fast {
+  transition-property: transform;
+  transition-timing-function: var(--ease-default);
+  transition-duration: var(--duration-fast);
+}
+
+@utility animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--muted) / 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Reduced motion: kill all animation durations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
