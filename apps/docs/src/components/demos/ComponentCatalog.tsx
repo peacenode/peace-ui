@@ -1,8 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react"
-import {
-  Sheet,
-  SheetContent,
-} from "@/components/ui/sheet"
+import { AnimatePresence, motion } from "motion/react"
 import {
   RectangleHorizontal,
   CreditCard,
@@ -19,6 +16,7 @@ import {
   Check,
   Terminal,
   Code,
+  X,
 } from "lucide-react"
 
 const demos: Record<string, React.LazyExoticComponent<() => React.JSX.Element>> = {
@@ -79,7 +77,8 @@ function CopyButton({
 
   return (
     <button
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation()
         navigator.clipboard.writeText(text)
         setCopied(true)
         setTimeout(() => setCopied(false), 1500)
@@ -105,6 +104,19 @@ export default function ComponentCatalog() {
     window.addEventListener("hashchange", handleHash)
     return () => window.removeEventListener("hashchange", handleHash)
   }, [])
+
+  useEffect(() => {
+    if (!selected) return
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close()
+    }
+    document.addEventListener("keydown", handleEsc)
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.removeEventListener("keydown", handleEsc)
+      document.body.style.overflow = ""
+    }
+  }, [selected])
 
   const open = (slug: string) => {
     setSelected(slug)
@@ -140,16 +152,29 @@ export default function ComponentCatalog() {
         })}
       </div>
 
-      <Sheet open={!!selected} onOpenChange={(o) => !o && close()}>
-        <SheetContent
-          side="bottom"
-          className="h-[85vh] rounded-t-[1.25rem]"
-          showCloseButton={false}
-        >
-          <div className="mx-auto w-10 h-1 rounded-full bg-muted-foreground/25 mt-2 mb-2" />
-          {comp && (
-            <div className="flex flex-col h-full overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3">
+      <AnimatePresence>
+        {selected && comp && (
+          <>
+            <motion.div
+              key="overlay"
+              className="fixed inset-0 z-50 bg-black/15"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={close}
+            />
+            <motion.div
+              key="sheet"
+              className="fixed inset-x-0 bottom-0 z-50 h-[85vh] bg-background border-t rounded-t-[1.25rem] shadow-lg flex flex-col"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", stiffness: 400, damping: 35 }}
+            >
+              <div className="mx-auto w-10 h-1 rounded-full bg-muted-foreground/25 mt-3 mb-1" />
+
+              <div className="flex items-center justify-between px-6 py-3">
                 <div className="flex items-center gap-2.5">
                   {(() => {
                     const Icon = icons[comp.slug] || RectangleHorizontal
@@ -157,7 +182,7 @@ export default function ComponentCatalog() {
                   })()}
                   <h3 className="text-lg font-semibold">{comp.name}</h3>
                 </div>
-                <div className="flex gap-0.5">
+                <div className="flex items-center gap-0.5">
                   <CopyButton
                     text={`npx @peacenode/ui add ${comp.slug}`}
                     icon={Terminal}
@@ -168,8 +193,15 @@ export default function ComponentCatalog() {
                     icon={Code}
                     label="import"
                   />
+                  <button
+                    onClick={close}
+                    className="ml-2 p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors cursor-pointer"
+                  >
+                    <X className="size-4" />
+                  </button>
                 </div>
               </div>
+
               <div className="flex-1 overflow-y-auto px-6 pb-8">
                 <p className="text-sm text-muted-foreground mb-6">{comp.desc}</p>
                 <div className="rounded-xl border border-border/60 p-6">
@@ -188,10 +220,10 @@ export default function ComponentCatalog() {
                   "@/components/ui/{comp.slug}"
                 </div>
               </div>
-            </div>
-          )}
-        </SheetContent>
-      </Sheet>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   )
 }
