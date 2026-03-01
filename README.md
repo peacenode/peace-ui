@@ -1,6 +1,8 @@
 # peace-ui
 
-Animated components for React. A shadcn/ui fork with physics-based motion and modern visual defaults.
+Animated components for React. A drop-in [shadcn/ui](https://ui.shadcn.com) fork with physics-based motion and modern visual defaults.
+
+Same API. Better feel.
 
 ## Quick Start
 
@@ -9,19 +11,39 @@ npx peace-ui init
 npx peace-ui add button dialog tabs
 ```
 
-## What's different from shadcn/ui?
+## What's Different
 
-- **Physics-based motion** -- Spring animations on dialogs, sheets, dropdowns, accordions
-- **Modern visual defaults** -- Larger radii, layered shadows, frosted glass overlays
-- **CSS-first where possible** -- Hover/focus transitions stay GPU-composited
-- **Motion library included** -- `motion` installed automatically on init
-- **Reduced motion respected** -- All animations honor `prefers-reduced-motion`
-- **Same API** -- Drop-in replacement. Same component props, same Radix primitives.
+Every component gets tasteful motion and visual polish out of the box:
+
+- **Button** — press feedback with `active:scale`, animated focus ring
+- **Dialog** — spring enter/exit, frosted glass backdrop
+- **Sheet** — iOS-like spring slide from edge
+- **Accordion** — smooth spring height animation
+- **Tabs** — clean transitions with modern radii
+- **Dropdown Menu** — elevated shadows, rounded corners
+- **Skeleton** — gradient shimmer replacing pulse
+
+15 components total. All respect `prefers-reduced-motion`.
+
+## How It Works
+
+- **CSS** for hover, focus, color transitions (GPU-composited, zero JS overhead)
+- **Motion** for enter/exit, height animation, layout shifts (spring physics)
+- **Visual** — larger radii, layered shadows, frosted glass overlays
+
+Spring configs and animation presets live in `lib/motion.ts`, installed automatically with `init`.
+
+## Compatibility
+
+- Next.js 14+ (App Router and Pages Router)
+- Vite + React
+- Remix
+- Any React 18+ project with Tailwind CSS
 
 ## Documentation
 
-Visit https://peace-ui.dev to view the documentation.
+Visit [peace-ui.dev](https://peace-ui.dev) for docs and component demos.
 
 ## License
 
-Licensed under the [MIT license](./LICENSE.md).
+MIT

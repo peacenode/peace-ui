@@ -42,3 +42,7 @@ tsconfig.tsbuildinfo
 
 .notes
 .playwright-mcp
+
+# astro
+apps/docs/dist/
+apps/docs/.astro/
