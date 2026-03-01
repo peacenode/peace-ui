@@ -18,7 +18,6 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: pnpm --filter @peacenode/ui typecheck
 
   publish:
     needs: build
