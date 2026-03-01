@@ -32,7 +32,7 @@ const components = [
         <div class="mb-6">
           <h3 class="text-xs uppercase tracking-wider text-muted-foreground px-2 mb-2">Getting Started</h3>
           <a href="/" class="block px-2 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-[--duration-fast]">
-            Introduction
+            Overview
           </a>
           <a href="/docs/getting-started" class="block px-2 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-[--duration-fast]">
             Installation
@@ -42,7 +42,7 @@ const components = [
           <h3 class="text-xs uppercase tracking-wider text-muted-foreground px-2 mb-2">Components</h3>
           {components.map((name) => (
             <a
-              href={`/docs/components/${name}`}
+              href={`/#${name}`}
               class="block px-2 py-1.5 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-[--duration-fast]"
             >
               {name.split("-").map(w => w[0].toUpperCase() + w.slice(1)).join(" ")}
