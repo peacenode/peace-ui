@@ -45,12 +45,12 @@
   100% { background-position: -200% 0; }
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: var(--color-background);
-  color: var(--color-foreground);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
 }
