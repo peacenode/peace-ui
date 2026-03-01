@@ -11,6 +11,7 @@ import {
   MessageSquare,
   Info,
   PanelBottom,
+  PanelRight,
   ChevronDown,
   Loader,
   Check,
@@ -31,6 +32,7 @@ const demos: Record<string, React.LazyExoticComponent<() => React.JSX.Element>> 
   select: lazy(() => import("./SelectDemo")),
   "dropdown-menu": lazy(() => import("./DropdownMenuDemo")),
   popover: lazy(() => import("./PopoverDemo")),
+  drawer: lazy(() => import("./DrawerDemo")),
   sheet: lazy(() => import("./SheetDemo")),
 }
 
@@ -44,6 +46,7 @@ const icons: Record<string, React.ComponentType<{ className?: string }>> = {
   select: ChevronsUpDown,
   popover: MessageSquare,
   tooltip: Info,
+  drawer: PanelRight,
   sheet: PanelBottom,
   accordion: ChevronDown,
   skeleton: Loader,
@@ -54,7 +57,8 @@ const components = [
   { name: "Input", slug: "input", desc: "Smooth focus transitions" },
   { name: "Card", slug: "card", desc: "Layered shadow and soft border" },
   { name: "Dialog", slug: "dialog", desc: "Spring enter/exit with frosted backdrop" },
-  { name: "Sheet", slug: "sheet", desc: "iOS-like spring slide from edge" },
+  { name: "Drawer", slug: "drawer", desc: "Modal panel from bottom or sides" },
+  { name: "Sheet", slug: "sheet", desc: "iOS-style non-modal sheet with detents" },
   { name: "Dropdown Menu", slug: "dropdown-menu", desc: "Elevated shadows, rounded corners" },
   { name: "Tabs", slug: "tabs", desc: "Clean transitions with modern radii" },
   { name: "Select", slug: "select", desc: "Elevated shadow, rounded content" },

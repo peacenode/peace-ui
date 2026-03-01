@@ -1,59 +1,121 @@
 "use client"
 
 import * as React from "react"
-import { XIcon } from "lucide-react"
-import { motion } from "motion/react"
-import { Dialog as SheetPrimitive } from "radix-ui"
+import { useState, useEffect, useCallback } from "react"
+import { motion, useMotionValue, animate, type PanInfo } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
-const MotionSheetOverlay = motion.create(SheetPrimitive.Overlay)
-const MotionSheetContent = motion.create(SheetPrimitive.Content)
+type SheetDetent = "peek" | "half" | "full"
 
-const sheetSlideVariants = {
-  right: { initial: { x: "100%" }, animate: { x: 0 }, exit: { x: "100%" } },
-  left: { initial: { x: "-100%" }, animate: { x: 0 }, exit: { x: "-100%" } },
-  top: { initial: { y: "-100%" }, animate: { y: 0 }, exit: { y: "-100%" } },
-  bottom: { initial: { y: "100%" }, animate: { y: 0 }, exit: { y: "100%" } },
-} as const
-
-const sheetSpring = { type: "spring" as const, stiffness: 400, damping: 35 }
-
-function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <SheetPrimitive.Root data-slot="sheet" {...props} />
+// translateY offsets in vh — how far down from fully-visible
+const OFFSETS: Record<SheetDetent | "closed", number> = {
+  full: 0,
+  half: 42,
+  peek: 80,
+  closed: 98,
 }
 
-function SheetTrigger({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
-  return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
-}
+const spring = { type: "spring" as const, stiffness: 400, damping: 35 }
 
-function SheetClose({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Close>) {
-  return <SheetPrimitive.Close data-slot="sheet-close" {...props} />
-}
-
-function SheetPortal({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Portal>) {
-  return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
-}
-
-function SheetOverlay({
+function Sheet({
+  children,
   className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Overlay>) {
+  defaultDetent = "peek",
+  onDetentChange,
+  onClose,
+}: {
+  children: React.ReactNode
+  className?: string
+  defaultDetent?: SheetDetent
+  onDetentChange?: (detent: SheetDetent) => void
+  onClose?: () => void
+}) {
+  const y = useMotionValue(0)
+  const [detent, setDetent] = useState<SheetDetent>(defaultDetent)
+  const [mounted, setMounted] = useState(false)
+
+  const toPx = useCallback(
+    (vh: number) => (vh / 100) * window.innerHeight,
+    []
+  )
+
+  const snapTo = useCallback(
+    (d: SheetDetent | "closed") => {
+      if (d === "closed") {
+        const animation = animate(y, toPx(OFFSETS.closed), spring)
+        animation.then(() => onClose?.())
+        return
+      }
+      setDetent(d)
+      onDetentChange?.(d)
+      animate(y, toPx(OFFSETS[d]), spring)
+    },
+    [y, toPx, onDetentChange, onClose]
+  )
+
+  useEffect(() => {
+    y.set(toPx(OFFSETS[defaultDetent]))
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") snapTo("closed")
+    }
+    window.addEventListener("keydown", handleEsc)
+    return () => window.removeEventListener("keydown", handleEsc)
+  }, [snapTo])
+
+  const handleDragEnd = useCallback(
+    (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      const currentY = y.get()
+      const velocity = info.velocity.y
+      const order: (SheetDetent | "closed")[] = ["full", "half", "peek", "closed"]
+
+      if (Math.abs(velocity) > 400) {
+        const dir = velocity > 0 ? 1 : -1
+        const idx = order.indexOf(detent)
+        const next = Math.max(0, Math.min(order.length - 1, idx + dir))
+        snapTo(order[next])
+      } else {
+        const nearest = order
+          .map((d) => ({ d, dist: Math.abs(currentY - toPx(OFFSETS[d])) }))
+          .sort((a, b) => a.dist - b.dist)[0]
+        snapTo(nearest.d)
+      }
+    },
+    [detent, y, snapTo, toPx]
+  )
+
+  if (!mounted) return null
+
   return (
-    <MotionSheetOverlay
-      data-slot="sheet-overlay"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+    <motion.div
       className={cn(
-        "fixed inset-0 z-50 bg-black/15",
+        "fixed inset-x-2 bottom-0 z-[60] h-[96vh] rounded-t-2xl bg-background shadow-elevated border border-border/40 flex flex-col overflow-hidden",
+        className
+      )}
+      style={{ y }}
+      drag="y"
+      dragElastic={0.1}
+      dragMomentum={false}
+      onDragEnd={handleDragEnd}
+      onClick={() => {
+        if (detent === "peek") snapTo("half")
+      }}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function SheetHandle({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="sheet-handle"
+      className={cn(
+        "mx-auto w-10 h-1 rounded-full bg-muted-foreground/30 mt-2.5 mb-1 shrink-0",
         className
       )}
       {...props}
@@ -61,106 +123,25 @@ function SheetOverlay({
   )
 }
 
-function SheetContent({
-  className,
-  children,
-  side = "right",
-  showCloseButton = true,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Content> & {
-  side?: "top" | "right" | "bottom" | "left"
-  showCloseButton?: boolean
-}) {
-  const slideVariant = sheetSlideVariants[side]
-
-  return (
-    <SheetPortal>
-      <SheetOverlay />
-      <MotionSheetContent
-        data-slot="sheet-content"
-        initial={slideVariant.initial}
-        animate={slideVariant.animate}
-        exit={slideVariant.exit}
-        transition={sheetSpring}
-        className={cn(
-          "bg-background fixed z-50 flex flex-col gap-4 shadow-lg",
-          side === "right" &&
-            "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm",
-          side === "left" &&
-            "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
-          side === "top" &&
-            "inset-x-0 top-0 h-auto border-b",
-          side === "bottom" &&
-            "inset-x-0 bottom-0 h-auto border-t",
-          className
-        )}
-        {...props}
-      >
-        {children}
-        {showCloseButton && (
-          <SheetPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
-            <XIcon className="size-4" />
-            <span className="sr-only">Close</span>
-          </SheetPrimitive.Close>
-        )}
-      </MotionSheetContent>
-    </SheetPortal>
-  )
-}
-
 function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-header"
-      className={cn("flex flex-col gap-1.5 p-4", className)}
+      className={cn("px-5 py-2 shrink-0", className)}
       {...props}
     />
   )
 }
 
-function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
+function SheetBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      data-slot="sheet-footer"
-      className={cn("mt-auto flex flex-col gap-2 p-4", className)}
+      data-slot="sheet-body"
+      className={cn("flex-1 overflow-y-auto px-5 pb-5", className)}
       {...props}
     />
   )
 }
 
-function SheetTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Title>) {
-  return (
-    <SheetPrimitive.Title
-      data-slot="sheet-title"
-      className={cn("text-foreground font-semibold", className)}
-      {...props}
-    />
-  )
-}
-
-function SheetDescription({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Description>) {
-  return (
-    <SheetPrimitive.Description
-      data-slot="sheet-description"
-      className={cn("text-muted-foreground text-sm", className)}
-      {...props}
-    />
-  )
-}
-
-export {
-  Sheet,
-  SheetTrigger,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
-}
+export { Sheet, SheetHandle, SheetHeader, SheetBody }
+export type { SheetDetent }

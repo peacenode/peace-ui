@@ -12,6 +12,7 @@ const demos: Record<string, React.LazyExoticComponent<() => React.JSX.Element>> 
   select: lazy(() => import("./SelectDemo")),
   "dropdown-menu": lazy(() => import("./DropdownMenuDemo")),
   popover: lazy(() => import("./PopoverDemo")),
+  drawer: lazy(() => import("./DrawerDemo")),
   sheet: lazy(() => import("./SheetDemo")),
 }
 
