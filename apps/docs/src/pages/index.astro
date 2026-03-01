@@ -1,145 +1,68 @@
 ---
+import DocsLayout from "../layouts/DocsLayout.astro"
+import ButtonDemo from "../components/demos/ButtonDemo"
+import CardDemo from "../components/demos/CardDemo"
+import SkeletonDemo from "../components/demos/SkeletonDemo"
+
 const components = [
-  { name: "Button", desc: "Press feedback with active:scale" },
-  { name: "Dialog", desc: "Spring enter/exit with frosted backdrop" },
-  { name: "Sheet", desc: "iOS-like spring slide from edge" },
-  { name: "Tabs", desc: "Clean transitions with modern radii" },
-  { name: "Accordion", desc: "Smooth height animation" },
-  { name: "Dropdown Menu", desc: "Elevated shadows, rounded corners" },
+  { name: "Button", slug: "button", desc: "Press feedback with active:scale" },
+  { name: "Dialog", slug: "dialog", desc: "Spring enter/exit with frosted backdrop" },
+  { name: "Sheet", slug: "sheet", desc: "iOS-like spring slide from edge" },
+  { name: "Tabs", slug: "tabs", desc: "Clean transitions with modern radii" },
+  { name: "Accordion", slug: "accordion", desc: "Smooth height animation" },
+  { name: "Dropdown Menu", slug: "dropdown-menu", desc: "Elevated shadows, rounded corners" },
+  { name: "Card", slug: "card", desc: "Layered shadow and soft border" },
+  { name: "Input", slug: "input", desc: "Smooth focus transitions" },
+  { name: "Select", slug: "select", desc: "Elevated shadow, rounded content" },
+  { name: "Popover", slug: "popover", desc: "Direction-aware enter, elevated shadow" },
+  { name: "Tooltip", slug: "tooltip", desc: "Smooth fade+scale" },
+  { name: "Skeleton", slug: "skeleton", desc: "Gradient shimmer animation" },
 ]
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>peace-ui - Animated components for React</title>
-    <meta name="description" content="A shadcn/ui fork with physics-based motion and modern visual defaults." />
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: #09090b;
-        color: #fafafa;
-        line-height: 1.6;
-      }
-      a { color: inherit; }
-      .hero {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 8rem 2rem 4rem;
-        text-align: center;
-      }
-      .hero-badge {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 999px;
-        border: 1px solid #27272a;
-        font-size: 0.75rem;
-        color: #a1a1aa;
-        margin-bottom: 1.5rem;
-      }
-      .hero h1 {
-        font-size: clamp(2.5rem, 6vw, 4rem);
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        line-height: 1.1;
-        margin-bottom: 1.25rem;
-      }
-      .hero h1 span { color: #71717a; }
-      .hero p {
-        font-size: 1.125rem;
-        color: #a1a1aa;
-        max-width: 480px;
-        margin: 0 auto 2.5rem;
-      }
-      .cta-group { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-      .cta {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.625rem 1.25rem;
-        border-radius: 12px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: all 0.15s;
-        text-decoration: none;
-      }
-      .cta-primary { background: #fafafa; color: #09090b; }
-      .cta-primary:hover { background: #e4e4e7; }
-      .cta-secondary { border: 1px solid #27272a; color: #a1a1aa; }
-      .cta-secondary:hover { border-color: #3f3f46; color: #fafafa; }
-      .install {
-        max-width: 480px;
-        margin: 3rem auto;
-        background: #111;
-        border: 1px solid #1a1a2e;
-        border-radius: 12px;
-        padding: 1rem 1.25rem;
-        font-family: "SF Mono", "Fira Code", monospace;
-        font-size: 0.875rem;
-        text-align: left;
-        color: #a1a1aa;
-      }
-      .install span { color: #4ade80; }
-      .components {
-        max-width: 720px;
-        margin: 4rem auto;
-        padding: 0 2rem;
-      }
-      .components h2 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 2rem;
-        text-align: center;
-      }
-      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-      .component-card {
-        border: 1px solid #1a1a2e;
-        border-radius: 12px;
-        padding: 1.25rem;
-        transition: all 0.2s;
-      }
-      .component-card { text-decoration: none; display: block; }
-      .component-card:hover { border-color: #27272a; background: #111; }
-      .component-card h3 { font-size: 0.9375rem; font-weight: 600; margin-bottom: 0.25rem; }
-      .component-card p { font-size: 0.8125rem; color: #71717a; }
-      .footer {
-        text-align: center;
-        padding: 4rem 2rem;
-        color: #52525b;
-        font-size: 0.8125rem;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="hero">
-      <div class="hero-badge">shadcn/ui fork with motion</div>
-      <h1>Components that <span>feel alive</span></h1>
-      <p>Drop-in shadcn/ui replacement with physics-based motion and modern visual defaults. Same API, better feel.</p>
-      <div class="cta-group">
-        <a href="/docs/getting-started" class="cta cta-primary">Get Started</a>
-        <a href="https://github.com/peacenode/peace-ui" class="cta cta-secondary">GitHub</a>
-      </div>
-      <div class="install">
-        <span>$</span> npx @peacenode/ui init
-      </div>
+<DocsLayout title="Introduction" description="Animated components for React. A shadcn/ui fork with physics-based motion.">
+  <div class="mb-10">
+    <span class="inline-block px-3 py-1 rounded-full border border-border text-xs text-muted-foreground mb-4">shadcn/ui fork with motion</span>
+    <h1 class="text-4xl font-extrabold tracking-tight mb-3">Components that <span class="text-muted-foreground">feel alive</span></h1>
+    <p class="text-lg text-muted-foreground mb-6 max-w-lg">Drop-in shadcn/ui replacement with physics-based motion and modern visual defaults. Same API, better feel.</p>
+    <div class="flex gap-3 mb-8">
+      <a href="/docs/getting-started" class="inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-[--duration-fast]">
+        Get Started
+      </a>
+      <a href="https://github.com/peacenode/peace-ui" class="inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-medium border border-border text-muted-foreground hover:text-foreground hover:border-muted-foreground transition-colors duration-[--duration-fast]">
+        GitHub
+      </a>
     </div>
+    <div class="bg-card border border-border/60 rounded-xl px-4 py-3 font-mono text-sm text-muted-foreground max-w-md">
+      <span class="text-green-400">$</span> npx @peacenode/ui init
+    </div>
+  </div>
 
-    <div class="components">
-      <h2>15 animated components</h2>
-      <div class="grid">
-        {components.map(({ name, desc }) => (
-          <a href={`/docs/components/${name.toLowerCase().replace(/ /g, "-")}`} class="component-card">
-            <h3>{name}</h3>
-            <p>{desc}</p>
-          </a>
-        ))}
-      </div>
-    </div>
+  <h2 class="text-xl font-semibold mb-2">Preview</h2>
+  <p class="text-muted-foreground mb-6">Try the components — press the buttons, open the dialog.</p>
 
-    <div class="footer">
-      Built by peace. Open source under MIT.
+  <div class="space-y-8 mb-12">
+    <div class="rounded-xl border border-border/60 p-6">
+      <h3 class="text-sm font-medium text-muted-foreground mb-4">Button</h3>
+      <ButtonDemo client:load />
     </div>
-  </body>
-</html>
+    <div class="rounded-xl border border-border/60 p-6">
+      <h3 class="text-sm font-medium text-muted-foreground mb-4">Card</h3>
+      <CardDemo client:load />
+    </div>
+    <div class="rounded-xl border border-border/60 p-6">
+      <h3 class="text-sm font-medium text-muted-foreground mb-4">Skeleton</h3>
+      <SkeletonDemo client:load />
+    </div>
+  </div>
+
+  <h2 class="text-xl font-semibold mb-4">All Components</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    {components.map(({ name, slug, desc }) => (
+      <a href={`/docs/components/${slug}`} class="block rounded-xl border border-border/60 p-4 hover:border-muted-foreground hover:bg-accent/50 transition-all duration-[--duration-fast]">
+        <h3 class="text-sm font-semibold mb-0.5">{name}</h3>
+        <p class="text-xs text-muted-foreground">{desc}</p>
+      </a>
+    ))}
+  </div>
+</DocsLayout>

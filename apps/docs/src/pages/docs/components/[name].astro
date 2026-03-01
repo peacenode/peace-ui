@@ -1,23 +1,26 @@
 ---
 import DocsLayout from "../../../layouts/DocsLayout.astro"
+import ComponentPreview from "../../../components/demos/ComponentPreview"
+
+const hasDemo = [
+  "button", "card", "input", "skeleton", "tabs", "accordion",
+  "dialog", "tooltip", "select", "dropdown-menu", "popover", "sheet",
+]
 
 export function getStaticPaths() {
   const components = [
-    { name: "button", desc: "Displays a button with press feedback and animated focus ring.", animation: "CSS only - active:scale-[0.97], transition-colors-fast" },
-    { name: "input", desc: "Displays a form input field with smooth focus transitions.", animation: "CSS only - soft focus glow, smooth border transition" },
-    { name: "card", desc: "Displays a card with layered shadow and soft border.", animation: "CSS only - shadow-subtle default" },
-    { name: "dialog", desc: "A modal dialog with spring enter/exit animation.", animation: "Motion - spring scale 0.95→1, frosted backdrop (backdrop-blur-xl)" },
-    { name: "dropdown-menu", desc: "Displays a menu triggered from a button.", animation: "CSS - scale-in with elevated shadow, rounded-xl" },
-    { name: "tabs", desc: "A set of layered sections of content.", animation: "CSS - smooth trigger transitions, rounded-lg" },
-    { name: "select", desc: "Displays a select input with dropdown.", animation: "CSS - elevated shadow, rounded-xl content" },
-    { name: "popover", desc: "Displays rich content in a floating panel.", animation: "CSS - direction-aware enter, elevated shadow" },
-    { name: "tooltip", desc: "A popup that displays information on hover.", animation: "CSS only - smooth fade+scale (150ms)" },
-    { name: "sheet", desc: "A panel that slides in from the edge of the screen.", animation: "Motion - spring slide (stiffness: 400, damping: 35), frosted overlay" },
-    { name: "accordion", desc: "Vertically stacked set of interactive headings.", animation: "CSS - height auto animation, rounded-lg triggers" },
-    { name: "sonner", desc: "Toast notifications powered by Sonner.", animation: "Sonner built-in - elevated shadow styling" },
-    { name: "sidebar", desc: "A composable sidebar component.", animation: "Inherits Sheet spring animation on mobile" },
-    { name: "skeleton", desc: "Used to show a placeholder while content is loading.", animation: "CSS - shimmer gradient animation replacing pulse" },
-    { name: "command", desc: "Fast, composable command palette.", animation: "Inherits Dialog spring animation, rounded-xl" },
+    { name: "button", desc: "Displays a button with press feedback and animated focus ring.", animation: "CSS only — active:scale-[0.97], smooth color transitions" },
+    { name: "input", desc: "Displays a form input field with smooth focus transitions.", animation: "CSS only — soft focus glow, smooth border transition" },
+    { name: "card", desc: "Displays a card with layered shadow and soft border.", animation: "CSS only — shadow-subtle default" },
+    { name: "dialog", desc: "A modal dialog with spring enter/exit animation.", animation: "Motion — spring scale 0.95→1, frosted backdrop (backdrop-blur-xl)" },
+    { name: "dropdown-menu", desc: "Displays a menu triggered from a button.", animation: "CSS — scale-in with elevated shadow, rounded-xl" },
+    { name: "tabs", desc: "A set of layered sections of content.", animation: "CSS — smooth trigger transitions, rounded-lg" },
+    { name: "select", desc: "Displays a select input with dropdown.", animation: "CSS — elevated shadow, rounded-xl content" },
+    { name: "popover", desc: "Displays rich content in a floating panel.", animation: "CSS — direction-aware enter, elevated shadow" },
+    { name: "tooltip", desc: "A popup that displays information on hover.", animation: "CSS only — smooth fade+scale (150ms)" },
+    { name: "sheet", desc: "A panel that slides in from the edge of the screen.", animation: "Motion — spring slide (stiffness: 400, damping: 35), frosted overlay" },
+    { name: "accordion", desc: "Vertically stacked set of interactive headings.", animation: "CSS — height auto animation, rounded-lg triggers" },
+    { name: "skeleton", desc: "Used to show a placeholder while content is loading.", animation: "CSS — shimmer gradient animation" },
   ]
 
   return components.map((c) => ({
@@ -28,18 +31,30 @@ export function getStaticPaths() {
 
 const { name, desc, animation } = Astro.props
 const displayName = name.split("-").map((w: string) => w[0].toUpperCase() + w.slice(1)).join(" ")
+const showDemo = hasDemo.includes(name)
 ---
 
 <DocsLayout title={displayName} description={desc}>
-  <h1>{displayName}</h1>
-  <p>{desc}</p>
+  <h1 class="text-3xl font-bold tracking-tight mb-2">{displayName}</h1>
+  <p class="text-muted-foreground mb-8">{desc}</p>
 
-  <h2>Install</h2>
-  <div class="install-cmd">npx @peacenode/ui add {name}</div>
+  {showDemo && (
+    <div class="mb-8">
+      <h2 class="text-lg font-semibold mb-3">Preview</h2>
+      <div class="rounded-xl border border-border/60 p-6 bg-card">
+        <ComponentPreview name={name} client:load />
+      </div>
+    </div>
+  )}
 
-  <h2>Animation</h2>
-  <p>{animation}</p>
+  <h2 class="text-lg font-semibold mb-3">Install</h2>
+  <div class="bg-card border border-border/60 rounded-xl px-4 py-3 font-mono text-sm mb-8">
+    npx @peacenode/ui add {name}
+  </div>
 
-  <h2>Usage</h2>
-  <pre><code>{`import { ${displayName.replace(/ /g, "")} } from "@/components/ui/${name}"`}</code></pre>
+  <h2 class="text-lg font-semibold mb-3">Animation</h2>
+  <p class="text-muted-foreground mb-8">{animation}</p>
+
+  <h2 class="text-lg font-semibold mb-3">Usage</h2>
+  <pre class="bg-card border border-border/60 rounded-xl px-4 py-3 font-mono text-sm overflow-x-auto"><code>{`import { ${displayName.replace(/ /g, "")} } from "@/components/ui/${name}"`}</code></pre>
 </DocsLayout>

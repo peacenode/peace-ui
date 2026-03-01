@@ -3,35 +3,39 @@ import DocsLayout from "../../layouts/DocsLayout.astro"
 ---
 
 <DocsLayout title="Getting Started" description="Install peace-ui and add components to your React project.">
-  <h1>Getting Started</h1>
-  <p>peace-ui is a drop-in replacement for shadcn/ui with physics-based motion and modern visual defaults.</p>
+  <h1 class="text-3xl font-bold tracking-tight mb-2">Getting Started</h1>
+  <p class="text-muted-foreground mb-8">peace-ui is a drop-in replacement for shadcn/ui with physics-based motion and modern visual defaults.</p>
 
-  <h2>Initialize your project</h2>
-  <p>Run the init command to set up your project. This creates a <code>peace-ui.json</code> config file and installs base dependencies including the <code>motion</code> library.</p>
-  <div class="install-cmd">npx @peacenode/ui init</div>
+  <h2 class="text-lg font-semibold mb-3">Initialize your project</h2>
+  <p class="text-muted-foreground mb-3">Run the init command to set up your project. This creates a <code class="bg-muted px-1.5 py-0.5 rounded-md text-sm font-mono">peace-ui.json</code> config file and installs base dependencies.</p>
+  <div class="bg-card border border-border/60 rounded-xl px-4 py-3 font-mono text-sm mb-8">
+    npx @peacenode/ui init
+  </div>
 
-  <h2>Add components</h2>
-  <p>Add individual components to your project:</p>
-  <div class="install-cmd">npx @peacenode/ui add button</div>
+  <h2 class="text-lg font-semibold mb-3">Add components</h2>
+  <p class="text-muted-foreground mb-3">Add individual components to your project:</p>
+  <div class="bg-card border border-border/60 rounded-xl px-4 py-3 font-mono text-sm mb-4">
+    npx @peacenode/ui add button
+  </div>
+  <p class="text-muted-foreground mb-3">Or add multiple at once:</p>
+  <div class="bg-card border border-border/60 rounded-xl px-4 py-3 font-mono text-sm mb-8">
+    npx @peacenode/ui add button dialog tabs accordion
+  </div>
 
-  <p>Or add multiple at once:</p>
-  <div class="install-cmd">npx @peacenode/ui add button dialog tabs accordion</div>
-
-  <h2>What gets installed</h2>
-  <p>When you run <code>init</code>, peace-ui:</p>
-  <ul style="color: #a1a1aa; padding-left: 1.5rem; margin-bottom: 1rem;">
-    <li>Creates <code>peace-ui.json</code> with your project config</li>
-    <li>Installs <code>motion</code> (physics-based animation library)</li>
-    <li>Adds <code>lib/utils.ts</code> and <code>lib/motion.ts</code> (shared spring configs)</li>
+  <h2 class="text-lg font-semibold mb-3">What gets installed</h2>
+  <p class="text-muted-foreground mb-3">When you run <code class="bg-muted px-1.5 py-0.5 rounded-md text-sm font-mono">init</code>, peace-ui:</p>
+  <ul class="text-muted-foreground pl-6 list-disc space-y-1 mb-8">
+    <li>Creates <code class="bg-muted px-1.5 py-0.5 rounded-md text-sm font-mono">peace-ui.json</code> with your project config</li>
+    <li>Installs <code class="bg-muted px-1.5 py-0.5 rounded-md text-sm font-mono">motion</code> (physics-based animation library)</li>
+    <li>Adds <code class="bg-muted px-1.5 py-0.5 rounded-md text-sm font-mono">lib/utils.ts</code> and <code class="bg-muted px-1.5 py-0.5 rounded-md text-sm font-mono">lib/motion.ts</code></li>
     <li>Sets up CSS variables for motion tokens and shadow hierarchy</li>
   </ul>
 
-  <h2>Reduced motion</h2>
-  <p>All animations respect <code>prefers-reduced-motion</code>. When the user has motion reduction enabled, all animation durations are set to near-zero automatically.</p>
+  <h2 class="text-lg font-semibold mb-3">Reduced motion</h2>
+  <p class="text-muted-foreground mb-8">All animations respect <code class="bg-muted px-1.5 py-0.5 rounded-md text-sm font-mono">prefers-reduced-motion</code>. When the user has motion reduction enabled, animation durations are set to near-zero automatically.</p>
 
-  <h2>Compatibility</h2>
-  <p>peace-ui works with:</p>
-  <ul style="color: #a1a1aa; padding-left: 1.5rem; margin-bottom: 1rem;">
+  <h2 class="text-lg font-semibold mb-3">Compatibility</h2>
+  <ul class="text-muted-foreground pl-6 list-disc space-y-1">
     <li>Next.js 14+ (App Router and Pages Router)</li>
     <li>Vite + React</li>
     <li>Remix</li>
