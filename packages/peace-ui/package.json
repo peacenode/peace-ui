@@ -1,5 +1,5 @@
 {
-  "name": "@peace_node/ui",
+  "name": "@peacenode/ui",
   "version": "0.1.0",
   "description": "Animated components for React. Drop-in shadcn/ui fork with physics-based motion.",
   "publishConfig": {
