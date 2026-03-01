@@ -1,5 +1,20 @@
 ---
 import DocsLayout from "../layouts/DocsLayout.astro"
+
+const components = [
+  { name: "Button", slug: "button", desc: "Press feedback with active:scale" },
+  { name: "Dialog", slug: "dialog", desc: "Spring enter/exit with frosted backdrop" },
+  { name: "Sheet", slug: "sheet", desc: "iOS-like spring slide from edge" },
+  { name: "Tabs", slug: "tabs", desc: "Clean transitions with modern radii" },
+  { name: "Accordion", slug: "accordion", desc: "Smooth height animation" },
+  { name: "Dropdown Menu", slug: "dropdown-menu", desc: "Elevated shadows, rounded corners" },
+  { name: "Card", slug: "card", desc: "Layered shadow and soft border" },
+  { name: "Input", slug: "input", desc: "Smooth focus transitions" },
+  { name: "Select", slug: "select", desc: "Elevated shadow, rounded content" },
+  { name: "Popover", slug: "popover", desc: "Direction-aware enter, elevated shadow" },
+  { name: "Tooltip", slug: "tooltip", desc: "Smooth fade+scale" },
+  { name: "Skeleton", slug: "skeleton", desc: "Gradient shimmer animation" },
+]
 ---
 
 <DocsLayout title="Introduction" description="Animated components for React. A shadcn/ui fork with physics-based motion — ui.peacenode">
@@ -18,5 +33,15 @@ import DocsLayout from "../layouts/DocsLayout.astro"
     <div class="bg-card border border-border/60 rounded-xl px-4 py-3 font-mono text-sm text-muted-foreground max-w-md">
       <span class="text-muted-foreground">$</span> npx @peacenode/ui init
     </div>
+  </div>
+
+  <h2 class="text-xl font-semibold mb-4">Components</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    {components.map(({ name, slug, desc }) => (
+      <a href={`/docs/components/${slug}`} class="block rounded-xl border border-border/60 p-4 hover:border-muted-foreground hover:bg-accent/50 transition-all duration-[--duration-fast]">
+        <h3 class="text-sm font-semibold mb-0.5">{name}</h3>
+        <p class="text-xs text-muted-foreground">{desc}</p>
+      </a>
+    ))}
   </div>
 </DocsLayout>
