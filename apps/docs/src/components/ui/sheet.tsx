@@ -53,7 +53,7 @@ function SheetOverlay({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
       className={cn(
-        "fixed inset-0 z-50 bg-black/40 backdrop-blur-xl",
+        "fixed inset-0 z-50 bg-black/15",
         className
       )}
       {...props}
