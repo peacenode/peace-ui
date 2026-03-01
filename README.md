@@ -7,8 +7,8 @@ Same API. Better feel.
 ## Quick Start
 
 ```bash
-npx peace-ui init
-npx peace-ui add button dialog tabs
+npx @peace_node/ui init
+npx @peace_node/ui add button dialog tabs
 ```
 
 ## What's Different

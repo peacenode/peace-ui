@@ -248,7 +248,7 @@ importers:
 
   packages/tests:
     dependencies:
-      peace-ui:
+      '@peace_node/ui':
         specifier: workspace:*
         version: link:../peace-ui
     devDependencies:
