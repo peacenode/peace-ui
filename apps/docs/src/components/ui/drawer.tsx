@@ -2,21 +2,9 @@
 
 import * as React from "react"
 import { XIcon } from "lucide-react"
-import { motion } from "motion/react"
 import { Dialog as DrawerPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
-
-const MotionDrawerOverlay = motion.create(DrawerPrimitive.Overlay)
-const MotionDrawerContent = motion.create(DrawerPrimitive.Content)
-
-const slideVariants = {
-  right: { initial: { x: "100%" }, animate: { x: 0 }, exit: { x: "100%" } },
-  left: { initial: { x: "-100%" }, animate: { x: 0 }, exit: { x: "-100%" } },
-  bottom: { initial: { y: "100%" }, animate: { y: 0 }, exit: { y: "100%" } },
-} as const
-
-const drawerSpring = { type: "spring" as const, stiffness: 400, damping: 35 }
 
 function Drawer({
   ...props
@@ -36,24 +24,20 @@ function DrawerClose({
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 }
 
-function DrawerPortal({
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
-  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
-}
-
 function DrawerOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {
   return (
-    <MotionDrawerOverlay
+    <DrawerPrimitive.Overlay
       data-slot="drawer-overlay"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      className={cn("fixed inset-0 z-50 bg-black/15", className)}
+      forceMount
+      className={cn(
+        "fixed inset-0 z-50 bg-black/15 transition-opacity duration-200",
+        "data-[state=open]:opacity-100",
+        "data-[state=closed]:opacity-0 data-[state=closed]:pointer-events-none",
+        className
+      )}
       {...props}
     />
   )
@@ -69,25 +53,20 @@ function DrawerContent({
   side?: "bottom" | "left" | "right"
   showCloseButton?: boolean
 }) {
-  const variant = slideVariants[side]
-
   return (
-    <DrawerPortal>
+    <DrawerPrimitive.Portal forceMount>
       <DrawerOverlay />
-      <MotionDrawerContent
+      <DrawerPrimitive.Content
         data-slot="drawer-content"
-        initial={variant.initial}
-        animate={variant.animate}
-        exit={variant.exit}
-        transition={drawerSpring}
+        forceMount
         className={cn(
-          "bg-background fixed z-50 flex flex-col gap-4 shadow-lg",
+          "bg-background fixed z-50 flex flex-col gap-4 shadow-lg transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           side === "right" &&
-            "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm",
+            "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm data-[state=open]:translate-x-0 data-[state=closed]:translate-x-full",
           side === "left" &&
-            "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
+            "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm data-[state=open]:translate-x-0 data-[state=closed]:-translate-x-full",
           side === "bottom" &&
-            "inset-x-0 bottom-0 h-auto border-t rounded-t-xl",
+            "inset-x-0 bottom-0 h-auto border-t rounded-t-xl data-[state=open]:translate-y-0 data-[state=closed]:translate-y-full",
           className
         )}
         {...props}
@@ -99,8 +78,8 @@ function DrawerContent({
             <span className="sr-only">Close</span>
           </DrawerPrimitive.Close>
         )}
-      </MotionDrawerContent>
-    </DrawerPortal>
+      </DrawerPrimitive.Content>
+    </DrawerPrimitive.Portal>
   )
 }
 
