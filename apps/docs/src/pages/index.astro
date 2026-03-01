@@ -1,22 +1,6 @@
 ---
 import DocsLayout from "../layouts/DocsLayout.astro"
-import ComponentActions from "../components/demos/ComponentActions"
-import ComponentPreview from "../components/demos/ComponentPreview"
-
-const components = [
-  { name: "Button", slug: "button" },
-  { name: "Input", slug: "input" },
-  { name: "Card", slug: "card" },
-  { name: "Dialog", slug: "dialog" },
-  { name: "Sheet", slug: "sheet" },
-  { name: "Dropdown Menu", slug: "dropdown-menu" },
-  { name: "Tabs", slug: "tabs" },
-  { name: "Select", slug: "select" },
-  { name: "Popover", slug: "popover" },
-  { name: "Tooltip", slug: "tooltip" },
-  { name: "Accordion", slug: "accordion" },
-  { name: "Skeleton", slug: "skeleton" },
-]
+import ComponentCatalog from "../components/demos/ComponentCatalog"
 ---
 
 <DocsLayout title="ui.peacenode" description="Animated components for React. A shadcn/ui fork with physics-based motion.">
@@ -37,15 +21,5 @@ const components = [
     </div>
   </div>
 
-  <div class="space-y-6">
-    {components.map(({ name, slug }) => (
-      <section
-        id={slug}
-        class="scroll-mt-8 rounded-2xl border border-border/60 p-6 transition-all duration-500"
-      >
-        <ComponentActions name={name} slug={slug} client:load />
-        <ComponentPreview name={slug} client:load />
-      </section>
-    ))}
-  </div>
+  <ComponentCatalog client:load />
 </DocsLayout>
