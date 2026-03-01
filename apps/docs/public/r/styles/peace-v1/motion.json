@@ -1,0 +1,12 @@
+{
+  "$schema": "https://peace-ui.dev/schema/registry-item.json",
+  "name": "motion",
+  "type": "registry:lib",
+  "files": [
+    {
+      "path": "lib/motion.ts",
+      "type": "registry:lib",
+      "content": "import type { Transition, Variants } from \"motion/react\"\n\n// Spring configs\nexport const springs = {\n  snappy: { type: \"spring\", stiffness: 500, damping: 30 } as Transition,\n  gentle: { type: \"spring\", stiffness: 300, damping: 25 } as Transition,\n  bouncy: { type: \"spring\", stiffness: 400, damping: 15 } as Transition,\n  slow: { type: \"spring\", stiffness: 200, damping: 20 } as Transition,\n}\n\n// Reusable animation presets\nexport const presets = {\n  fadeIn: {\n    initial: { opacity: 0 },\n    animate: { opacity: 1 },\n    exit: { opacity: 0 },\n  } satisfies Variants,\n  slideUp: {\n    initial: { opacity: 0, y: 8 },\n    animate: { opacity: 1, y: 0 },\n    exit: { opacity: 0, y: 8 },\n  } satisfies Variants,\n  scaleIn: {\n    initial: { opacity: 0, scale: 0.95 },\n    animate: { opacity: 1, scale: 1 },\n    exit: { opacity: 0, scale: 0.95 },\n  } satisfies Variants,\n}\n"
+    }
+  ]
+}

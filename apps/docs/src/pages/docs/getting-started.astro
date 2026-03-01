@@ -1,0 +1,40 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro"
+---
+
+<DocsLayout title="Getting Started" description="Install peace-ui and add components to your React project.">
+  <h1>Getting Started</h1>
+  <p>peace-ui is a drop-in replacement for shadcn/ui with physics-based motion and modern visual defaults.</p>
+
+  <h2>Initialize your project</h2>
+  <p>Run the init command to set up your project. This creates a <code>peace-ui.json</code> config file and installs base dependencies including the <code>motion</code> library.</p>
+  <div class="install-cmd">npx peace-ui init</div>
+
+  <h2>Add components</h2>
+  <p>Add individual components to your project:</p>
+  <div class="install-cmd">npx peace-ui add button</div>
+
+  <p>Or add multiple at once:</p>
+  <div class="install-cmd">npx peace-ui add button dialog tabs accordion</div>
+
+  <h2>What gets installed</h2>
+  <p>When you run <code>init</code>, peace-ui:</p>
+  <ul style="color: #a1a1aa; padding-left: 1.5rem; margin-bottom: 1rem;">
+    <li>Creates <code>peace-ui.json</code> with your project config</li>
+    <li>Installs <code>motion</code> (physics-based animation library)</li>
+    <li>Adds <code>lib/utils.ts</code> and <code>lib/motion.ts</code> (shared spring configs)</li>
+    <li>Sets up CSS variables for motion tokens and shadow hierarchy</li>
+  </ul>
+
+  <h2>Reduced motion</h2>
+  <p>All animations respect <code>prefers-reduced-motion</code>. When the user has motion reduction enabled, all animation durations are set to near-zero automatically.</p>
+
+  <h2>Compatibility</h2>
+  <p>peace-ui works with:</p>
+  <ul style="color: #a1a1aa; padding-left: 1.5rem; margin-bottom: 1rem;">
+    <li>Next.js 14+ (App Router and Pages Router)</li>
+    <li>Vite + React</li>
+    <li>Remix</li>
+    <li>Any React 18+ project with Tailwind CSS</li>
+  </ul>
+</DocsLayout>
